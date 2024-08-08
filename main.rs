@@ -1,47 +1,109 @@
-use rand::{thread_rng,seq::SliceRandom};
-
 #[derive(Debug)]
-
-struct Deck{
-    cards:Vec<String>,
+enum Media {
+    Book { title: String, author: String },
+    Movie { title: String, director: String },
+    Audiobook { title: String },
+    Podcast(u32),
+    Placeholder,
 }
 
-impl Deck{
-    fn new()->Self{
-            //list of suits
-        //list of values
+impl Media {
+    fn description(&self) -> String {
+        // if let Media::Book { title, author } = self {
+        //     format!("Book: {} {}", title, author)
+        // } else if let Media::Movie { title, director } = self {
+        //     format!("Movie: {} {}", title, director)
+        // } else if let Media::Audiobook { title } = self {
+        //     format!("Audiobook: {}", title)
+        // } else {
+        //     String::from("Media description")
+        // }
 
-        //double nested for loop
-
-        let suits=["Hearts","Spades","Diamonds"];
-        let values=["Ace","Two","Three"];
-
-        let mut cards=vec![];
-
-        for suit in suits{
-            for value in values{
-                let card=format!("{} of {}",value,suit);
-                cards.push(card);
+        match self {
+            Media::Book { title, author } => {
+                format!("Book: {} {}", title, author)
+            }
+            Media::Movie { title, director } => {
+                format!("Movie: {} {}", title, director)
+            }
+            Media::Audiobook { title } => {
+                format!("Audiobook: {}", title)
+            }
+            Media::Podcast(id)=>{
+                format!("Podcast {}",id)
+            }
+            Media::Placeholder=>{format!("Placeholder")}
         }
     }
-        let deck:Deck=Deck{cards};
-        return deck;
+}
+
+#[derive(Debug)]
+struct Catalog {
+    items: Vec<Media>,
+}
+
+impl Catalog {
+    fn new() -> Self {
+        Catalog { items: vec![] }
     }
 
-    fn shuffle(&mut self){
-        let mut rng=thread_rng();
-        self.cards.shuffle(&mut rng);
+    fn add(&mut self, media: Media) {
+        self.items.push(media);
     }
 
-    fn deal(&mut self,num_cards:usize)->Vec<String>{
-        self.cards.split_off(self.cards.len()-num_cards)
+    fn get_by_index(&self,index:usize)->Option<&Media>{
+        if self.items.len()>index{
+        Some(&self.items[index])
+        }else{
+            None
+        }
     }
 }
 
+fn print_media(media: Media) {
+    println!("{:#?}", media);
+}
+
+
 fn main() {
-    let mut deck=Deck::new();
-    deck.shuffle();
-    let cards=deck.deal(3);
-    println!("Here's your deck: {:#?}",deck);
-    println!("Here's your hand:{:#?}",cards);
+    let audiobook = Media::Audiobook {
+        title: String::from("An Audiobook"),
+    };
+    let good_movie = Media::Movie {
+        title: String::from("Good Movie"),
+        director: String::from("Good Director"),
+    };
+    let bad_book = Media::Book {
+        title: String::from("Bad Book"),
+        author: String::from("Bad Author"),
+    };
+    let podcast=Media::Podcast(10);
+    let placeholder=Media::Placeholder;
+
+    // println!("{}", audiobook.description());
+    // println!("{}", good_movie.description());
+    // println!("{}", bad_book.description());
+
+    let mut catalog = Catalog::new();
+
+    catalog.add(audiobook);
+    catalog.add(good_movie);
+    catalog.add(bad_book);
+    catalog.add(podcast);
+    catalog.add(placeholder);
+
+    match catalog.items.get(10){
+        Some(value)=>{
+            println!("Item:{:#?}",value);
+        }
+        None=>{
+            println!("Nothing at this index");
+        }
+    }
+
+    // if let Some(value)=catalog.get_by_index(1000){
+    //     println!("{:#?}",value);
+    // }else{
+    //     println!("No value");
+    // }
 }
