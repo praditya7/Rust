@@ -7,3 +7,5 @@ Just a collection of small Rust projects.
 [3. Media Catalog](https://github.com/praditya7/Rust/blob/main/media.rs)
 
 [4. Reading and Writing Error Logs](https://github.com/praditya7/Rust/blob/main/logs.rs)
+
+[5. Iterator Functionalities](https://github.com/praditya7/Rust/blob/main/logs.rs)
