@@ -8,4 +8,4 @@ Just a collection of small Rust projects.
 
 [4. Reading and Writing Error Logs](https://github.com/praditya7/Rust/blob/main/logs.rs)
 
-[5. Iterator Functionalities](https://github.com/praditya7/Rust/blob/main/logs.rs)
+[5. Iterator Functionalities](https://github.com/praditya7/Rust/blob/main/iter.rs)
